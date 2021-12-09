@@ -1,0 +1,48 @@
+{
+  "name": "pod-api-client",
+  "version": "1.0.0",
+  "description": "Please_visit_https__developer_mastercard_com_for_additional_details__Usage_Notes__In_the_endpoints_you_will_see_parameter_examples_in_parameter_format__You_need_to_replace_that_with_the_actual_value__This_is_usually_applicable_for_identifier__ID__For_example_on_GET__contracts_you_need_to_replace_financier_id_parameter_with_actual_financier_ID_value__You_can_get_this_value_either_from_querying_using_GET__financiers_or_creating_a_new_financier_using_POST__financiers__The_same_applies_for_properties_inside_request_body_",
+  "license": "Unlicense",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint .",
+    "test": "mocha --recursive",
+    "coverage": "nyc mocha --recursive"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
+    "env": {
+      "es6": true,
+      "node": true,
+      "mocha": true,
+      "amd": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:mocha/recommended"
+    ],
+    "plugins": [
+      "mocha"
+    ],
+    "rules": {
+      "no-unused-vars": 1,
+      "no-prototype-builtins": 0
+    }
+  },
+  "browser": {
+    "fs": false
+  },
+  "dependencies": {
+    "superagent": "5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-mocha": "^6.3.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^5.2.0",
+    "nyc": "^15.0.1",
+    "sinon": "^7.2.0"
+  }
+}

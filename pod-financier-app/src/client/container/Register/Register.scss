@@ -1,0 +1,40 @@
+.register {
+  height: 100%;
+  display: flex;
+
+  &-header {
+    height: 200px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &-content {
+    min-height: 0;
+    flex: 1;
+    padding: 24px;
+    overflow: auto;
+
+    & > .ant-row {
+      height: 100%;
+
+      & > .ant-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+
+  &-footer {
+    text-transform: uppercase;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      height: 40px;
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "pod-smartphone-api",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "mastercard-oauth1-signer": "^1.1.5",
+    "pod-api-client": "1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.8.2",
+    "jest": "^24.9"
+  },
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "lint": "eslint ."
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
+    "env": {
+      "es6": true,
+      "node": true,
+      "jest/globals": true
+    },
+    "extends": "eslint:recommended",
+    "plugins": [
+      "jest"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/coverage/**",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ]
+  }
+}

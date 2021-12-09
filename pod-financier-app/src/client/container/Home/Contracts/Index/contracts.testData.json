@@ -1,0 +1,174 @@
+{
+  "offset": 0,
+  "limit": 50,
+  "count": 4,
+  "total": 4,
+  "items": [
+    {
+      "id": "f730fb62-c2fb-4764-846a-31c9eb14efbe",
+      "amount": 3000,
+      "currency": "UGX",
+      "downpaymentAmount": 12,
+      "duration": 1,
+      "durationUnit": "MONTH",
+      "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+      "startDate": "2020-04-24T05:57:43.000Z",
+      "status": "CREATED",
+      "totalPaidAmount": null,
+      "type": "INSTALMENT",
+      "defaultPaymentMethodId": "bbf89710-aefb-477b-b1e6-a2171384ed7e",
+      "downpaymentTransactionId": "163b7026-c5d7-456c-9d2f-c54ca3434cda",
+      "instalmentContractDetails": {
+        "paymentAmount": 2988,
+        "paymentInterval": 1,
+        "paymentIntervalUnit": "MONTH",
+        "instalmentSchedules": [
+          {
+            "order": 1,
+            "amount": 2988,
+            "dueDate": "2020-05-24T05:57:43.000Z",
+            "status": "PARTIAL_PAID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b8a4cada-d8fa-43a6-9713-b79e7841353c",
+      "amount": 50000,
+      "currency": "UGX",
+      "downpaymentAmount": 5000,
+      "duration": 4,
+      "durationUnit": "MONTH",
+      "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+      "startDate": "2020-04-24T06:04:10.000Z",
+      "status": "CREATED",
+      "totalPaidAmount": null,
+      "type": "INSTALMENT",
+      "defaultPaymentMethodId": null,
+      "downpaymentTransactionId": "27ed3978-c832-4160-9a13-1f28948012f5",
+      "instalmentContractDetails": {
+        "paymentAmount": 11250,
+        "paymentInterval": 1,
+        "paymentIntervalUnit": "MONTH",
+        "instalmentSchedules": [
+          {
+            "order": 1,
+            "amount": 11250,
+            "dueDate": "2020-05-24T06:04:10.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 2,
+            "amount": 11250,
+            "dueDate": "2020-06-24T06:04:10.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 3,
+            "amount": 11250,
+            "dueDate": "2020-07-24T06:04:10.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 4,
+            "amount": 11250,
+            "dueDate": "2020-08-24T06:04:10.000Z",
+            "status": "UNPAID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ed706f97-0593-4560-b085-23112ed51215",
+      "amount": 4954900,
+      "currency": "NGN",
+      "downpaymentAmount": 1600000,
+      "duration": 6,
+      "durationUnit": "MONTH",
+      "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+      "startDate": null,
+      "status": "CREATED",
+      "totalPaidAmount": null,
+      "type": "INSTALMENT",
+      "defaultPaymentMethodId": null,
+      "downpaymentTransactionId": "09ed37ba-dc07-4b41-8a63-86bb7cec2d8d",
+      "instalmentContractDetails": {
+        "paymentAmount": 559900,
+        "paymentInterval": 1,
+        "paymentIntervalUnit": "MONTH",
+        "instalmentSchedules": [
+          {
+            "order": 1,
+            "amount": 200,
+            "dueDate": "2020-06-01T17:32:28.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 2,
+            "amount": 200,
+            "dueDate": "2020-07-01T17:32:28.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 3,
+            "amount": 200,
+            "dueDate": "2020-08-01T17:32:28.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 4,
+            "amount": 200,
+            "dueDate": "2020-09-01T17:32:28.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 5,
+            "amount": 150,
+            "dueDate": "2020-10-01T17:32:28.000Z",
+            "status": "UNPAID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "91bcb481-f4de-45cb-a266-abac30a48a78",
+      "amount": 3000,
+      "currency": "UGX",
+      "downpaymentAmount": 300,
+      "duration": 3,
+      "durationUnit": "MONTH",
+      "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+      "startDate": "2020-04-24T10:05:43.000Z",
+      "status": "CREATED",
+      "totalPaidAmount": null,
+      "type": "INSTALMENT",
+      "defaultPaymentMethodId": null,
+      "downpaymentTransactionId": "e0069d10-1a29-4e89-984c-7d625216ca5c",
+      "instalmentContractDetails": {
+        "paymentAmount": 900,
+        "paymentInterval": 1,
+        "paymentIntervalUnit": "MONTH",
+        "instalmentSchedules": [
+          {
+            "order": 1,
+            "amount": 900,
+            "dueDate": "2020-05-24T10:05:43.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 2,
+            "amount": 900,
+            "dueDate": "2020-06-24T10:05:43.000Z",
+            "status": "UNPAID"
+          },
+          {
+            "order": 3,
+            "amount": 900,
+            "dueDate": "2020-07-24T10:05:43.000Z",
+            "status": "UNPAID"
+          }
+        ]
+      }
+    }
+  ]
+}

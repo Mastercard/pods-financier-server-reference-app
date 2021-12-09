@@ -1,0 +1,14 @@
+{
+  "offset": 0,
+  "limit": 50,
+  "count": 1,
+  "total": 1,
+  "items": [
+    {
+      "gatewayConfigurationId": "55ccdbbc-be98-46f3-8e93-ef4098a3607b",
+      "configuration": "{ \"baseUrl\": \"https://mtf.gateway.mastercard.com\", \"currency\": \"UGX\", \"merchantId\": \"TESTPHONES\", \"password\": \"372ada10977ab39cbc9ce91b2feb0f0f\", \"version\": \"53\" }",
+      "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+      "gatewayId": "205b1111-0fdf-4023-9788-996f844fe4fc"
+    }
+  ]
+}

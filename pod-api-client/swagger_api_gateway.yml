@@ -1,0 +1,1907 @@
+openapi: 3.0.0
+
+info:
+  title: Pay On Demand for Digital Inclusion
+  contact:
+    name: Mastercard Pay on Demand for Digital Inclusion
+    email: PayonDemand_DigitalInclusion@mastercard.com
+  description: >
+    Please visit https://developer.mastercard.com for additional details.
+
+    ## Usage Notes
+
+    - In the endpoints, you will see parameter examples in {{parameter}} format. You need to replace that with the actual value. This is usually applicable for identifier (ID). For example, on GET /contracts, you need to replace "financier_id" parameter with actual financier ID value. You can get this value either from querying using GET /financiers or creating a new financier using POST /financiers. The same applies for properties inside request body.
+  version: 1.0.0
+
+servers:
+  - url: https://sandbox.api.mastercard.com/pods
+    description: Sandbox
+  - url: https://api.mastercard.com/pods
+    description: Production
+
+paths:
+  /contracts:
+    get:   
+      summary: Get list of contracts
+      operationId: getContracts
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      parameters:
+        - $ref: '#/components/parameters/financierIdParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      responses:
+        '200':
+          description: Listing of financiers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contracts'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Contracts
+    post:
+      summary: Add a new contract
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} in the request body with an actual Financier ID before trying this endpoint. 
+      operationId: addContract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractCreateRequest'
+            examples:
+              defaultExample:
+                $ref: '#/components/examples/RequestBodyContractCreate'
+      responses:
+        '201':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Contracts
+  /contracts/{contract_id}:
+    get:
+      summary: Get contract
+      description: >
+        ##### Usage
+
+        - Replace {{contract_id}} with an actual Contract ID before trying this endpoint. 
+
+        - Replace {{financier_id}} in the request body with an actual Financier ID before trying this endpoint. 
+      operationId: getContract
+      parameters:
+        - name: contract_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{contract_id}}"
+        - $ref: '#/components/parameters/financierIdParam'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      tags:
+        - Contracts
+    put:
+      description: >
+        Endpoint used to update contract information. Sub-actions available:
+          - Cancel contract;
+            Can be done by sending status 'CANCELED'.
+          - Complete contract;
+            Can be done by sending status 'COMPLETED'.
+          - Start contract;
+            Can be done by sending status 'ACTIVE' and startedDate parameters.
+
+        ##### Usage
+
+        - Replace {{contract_id}} with an actual Contract ID before trying this endpoint. 
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      operationId: updateContract
+      parameters:
+        - name: contract_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{contract_id}}"
+        - $ref: '#/components/parameters/financierIdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractUpdateRequest'
+            examples:
+              defaultExample:
+                $ref: '#/components/examples/RequestBodyContractUpdate'
+              registerDeviceExample:
+                $ref: '#/components/examples/RequestBodyContractRegisterDevice'
+              startExample:
+                $ref: '#/components/examples/RequestBodyContractStart'
+              pauseExample:
+                $ref: '#/components/examples/RequestBodyContractPause'
+              completeExample:
+                $ref: '#/components/examples/RequestBodyContractComplete'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      summary: Update contract
+      tags:
+        - Contracts
+  /financiers:
+    get:
+      summary: List financiers
+      operationId: getFinanciers
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Financiers'
+              examples:
+                defaultExample:
+                  $ref: '#/components/examples/ResponseListingFinancier'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Financiers
+    post:
+      summary: Add a new financier
+      operationId: addFinancier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FinancierCreateRequest'
+            examples:
+              defaultExample:
+                $ref: '#/components/examples/RequestBodyFinancierCreate'
+      responses:
+        '201':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Financier'
+              examples:
+                defaultExample:
+                  $ref: '#/components/examples/ResponseFinancier'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Financiers
+  /financiers/{financier_id}:
+    get:
+      summary: Get a financier's details
+      operationId: getFinancier
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      parameters:
+        - name: financier_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{financier_id}}"
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Financier'
+              examples:
+                defaultExample:
+                  $ref: '#/components/examples/ResponseFinancier'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      tags:
+        - Financiers
+    put:
+      summary: Update financier's details
+      operationId: updateFinancier
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      parameters:
+        - name: financier_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{financier_id}}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FinancierCreateRequest'
+            examples:
+              defaultExample:
+                $ref: '#/components/examples/RequestBodyFinancierUpdate'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Financier'
+              examples:
+                defaultExample:
+                  $ref: '#/components/examples/ResponseFinancier'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      tags:
+        - Financiers
+    delete:
+      summary: Delete a financier
+      operationId: deleteFinancier
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      parameters:
+        - name: financier_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{financier_id}}"
+      responses:
+        '200':
+          description: Default response
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      tags:
+        - Financiers
+  /gateways:
+    get:
+      summary: Get list of gateways
+      operationId: getGateways
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateways'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Gateway
+  /gateway-configurations:
+    get:
+      summary: Get list of gateway configurations
+      operationId: getGatewayConfigurations
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      parameters:
+        - $ref: '#/components/parameters/financierIdParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayConfigurations'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Gateway Configuration
+    post:
+      summary: Add gateway configuration
+      operationId: addGatewayConfiguration
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint.
+         
+        - Replace {{gateway_id}} with an actual Gateway ID before trying this endpoint. 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayConfigurationRequest'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayConfiguration'
+      tags:
+        - Gateway Configuration
+  /gateway-configurations/{gateway_configuration_id}:
+    delete:
+      summary: Delete gateway configuration
+      operationId: deleteGatewayConfiguration
+      description: >
+        ##### Usage
+
+        - Replace {{gateway_configuration_id}} with an actual Gateway Configuration ID before trying this endpoint. 
+      parameters:
+        - name: gateway_configuration_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{gateway_configuration_id}}"
+      responses:
+        '200':
+          description: Default response
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      tags:
+        - Gateway Configuration
+    get:
+      summary: Get gateway configuration
+      operationId: getGatewayConfiguration
+      description: >
+        ##### Usage
+
+        - Replace {{gateway_configuration_id}} with an actual Gateway Configuration ID before trying this endpoint. 
+      parameters:
+        - name: gateway_configuration_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{gateway_configuration_id}}"
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayConfiguration'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      tags:
+        - Gateway Configuration
+    put:
+      summary: Update gateway configuration
+      operationId: updateGatewayConfiguration
+      description: >
+        ##### Usage
+
+        - Replace {{gateway_configuration_id}} with an actual Gateway Configuration ID before trying this endpoint. 
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+
+        - Replace {{gateway_id}} with an actual Gateway ID before trying this endpoint. 
+      parameters:
+        - name: gateway_configuration_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{gateway_configuration_id}}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayConfigurationRequest'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayConfiguration'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Gateway Configuration
+  /transactions:
+    get:
+      summary: Get list of transactions
+      operationId: getTransactions
+      parameters:
+        - name: financier_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{financier_id}}"
+        - name: contract_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+          example: "{{contract_id}}"
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+
+        - Replace {{contract_id}} with an actual Contract ID before trying this endpoint. 
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transactions'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Transactions
+    post:
+      summary: Create a transaction
+      operationId: addTransaction
+      description: >
+        ##### Usage
+
+        - Replace {{contract_id}} with an actual Contract ID before trying this endpoint. 
+        
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+      responses:
+        '201':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Transactions
+  /transactions/{transaction_id}:
+    get:
+      summary: Get Transaction
+      operationId: getTransaction
+      description: >
+        ##### Usage
+
+        - Replace {{transaction_id}} with an actual Transaction ID before trying this endpoint. 
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      parameters:
+        - name: transaction_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{transaction_id}}"
+        - $ref: '#/components/parameters/financierIdParam'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      tags:
+        - Transactions
+    put:
+      operationId: updateTransaction
+      description: >
+        ##### Usage
+
+        - Replace {{transaction_id}} with an actual Transaction ID before trying this endpoint. 
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+
+        - Replace {{contract_id}} with an actual Contract ID before trying this endpoint. 
+      parameters:
+        - name: transaction_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{transaction_id}}"
+        - $ref: '#/components/parameters/financierIdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      summary: Update transaction
+      tags:
+        - Transactions
+  /devices:
+    get:
+      summary: Get details of devices
+      operationId: getDevices
+      description: >
+        ##### Usage
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      parameters:
+        - name: financier_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{financier_id}}"
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceListing'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Devices
+  /devices/{device_id}:
+    get:
+      summary: Get a device details
+      operationId: getDevice
+      description: >
+        ##### Usage
+
+        - Replace {{device_id}} with an actual Device ID before trying this endpoint. 
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{device_id}}"
+        - name: financier_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "{{financier_id}}"
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceResponse'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+      tags:
+        - Devices
+  /payment-sessions:
+    post:
+      summary: Create a new payment session
+      operationId: createPaymentSession
+      description: >
+        ##### Usage
+
+        - Replace {{contract_id}} with an actual Contract ID before trying this endpoint. 
+
+        - Replace {{financier_id}} with an actual Financier ID before trying this endpoint. 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentSessionRequest'
+      responses:
+        '201':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentSession'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '403':
+          $ref: '#/components/responses/ResponseForbidden'
+      tags:
+        - Payment Sessions
+
+components:
+
+  examples:
+    RequestBodyContractComplete:
+      summary: Complete contract
+      value:
+        "status": "COMPLETED"
+    RequestBodyContractCreate:
+      summary: Contract
+      value:
+        "amount": "145000"
+        "currency": "USD"
+        "downpaymentAmount": "500"
+        "duration": 6
+        "durationUnit": "MONTH"
+        "instalmentContractDetails":
+          "paymentAmount": "1000"
+          "paymentInterval": 1
+          "paymentIntervalUnit": "MONTH"
+          "instalmentSchedules":
+            - "order": 1
+              "amount": "200.00"
+            - "order": 2
+              "amount": "200.00"
+            - "order": 3
+              "amount": "200.00"
+            - "order": 4
+              "amount": "200.00"
+            - "order": 5
+              "amount": "150.00"
+        "type": "INSTALMENT"
+        "financierId": "{{financier_id}}"
+    RequestBodyContractPause:
+      summary: Pause contract
+      value:
+        "status": "PAUSED"
+    RequestBodyContractStart:
+      summary: Start contract
+      value:
+        "status": "STARTED"
+    RequestBodyContractUpdate:
+      summary: Update contract
+      value:
+        "amount": "15000"
+        "currency": "USD"
+    RequestBodyContractRegisterDevice:
+      summary: Register device to existing contract
+      value:
+        "device":
+          "imeiNumber": 49015420323751
+          "oem": "Samsung"
+          "model": "Galaxy A10s"
+    RequestBodyFinancierCreate:
+      summary: Financier
+      value:
+        name: "New Financier"
+        extIdentifier: "FINANCIER_NEW"
+    RequestBodyFinancierUpdate:
+      summary: Financier update
+      value:
+        name: "New Financier Updated"
+        extIdentifier: "FINANCIER_NEW"
+    ResponseFinancier:
+      summary: An example of a Financier response
+      value:
+        id: "1a485f1a-33ee-48ae-beb1-2e33218ec8d4"
+        name: "Financier Name"
+        extIdentifier: "FINANCIER_IDENTIFIER"
+    ResponseListingFinancier:
+      summary: An example of a Financier listing
+      value:
+        count: 1
+        offset: 0
+        limit: 20
+        total: 1
+        items:
+          type: array
+          items:
+            - id: "1a485f1a-33ee-48ae-beb1-2e33218ec8d4"
+              name: "Financier Name"
+              extIdentifier: "FINANCIER_IDENTIFIER"
+
+  parameters:
+    financierIdParam:
+      name: financier_id
+      in: query
+      description: Financier ID.
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: "{{financier_id}}"
+    limitParam:
+      name: limit
+      in: query
+      description: Limit of number of returned items.
+      example: "20"
+      required: false
+      schema:
+        type: integer
+        default: 20
+        maximum: 50
+        minimum: 1
+    offsetParam:
+      name: offset
+      in: query
+      description: Offset of returned items from the beginning.
+      example: "0"
+      required: false
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+
+  responses:
+    ResponseBadRequest:
+      description: Request contains incorrect or out of scope parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            Errors:
+              Error:
+                - ReasonCode: 'BAD_REQUEST_EXCEPTION'
+                  Description: 'Invalid parameters.'
+                  Recoverable: false
+                  Source: FacadeService
+                  Details: []
+    ResponseNotFound:
+      description: The queried resource is not found or unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            Errors:
+              Error:
+                - ReasonCode: 'NOT_FOUND_EXCEPTION'
+                  Description: 'Resource is not available.'
+                  Recoverable: true
+                  Source: FacadeService
+                  Details: []
+    ResponseUnauthorized:
+      description: Request does not have proper security authorization.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            Errors:
+              Error:
+              - ReasonCode: 'UNAUTHORIZED_EXCEPTION'
+                Description: 'You are unauthorized to perform this request.'
+                Recoverable: true
+                Source: FacadeService
+                Details: []
+    ResponseForbidden:
+      description: Inadequate permission to access a resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            Errors:
+              Error: 
+              - ReasonCode: 'FORBIDDEN_EXCEPTION'
+                Description: 'You do not have a proper right to access this resource.'
+                Recoverable: true
+                Source: FacadeService
+                Details: []
+
+  schemas:
+    CollectionPage:
+      type: object
+      required:
+        - items
+        - limit
+        - offset
+      properties:
+        count:
+          type: integer
+          description: Number of items returned.
+          example: 12
+        offset:
+          type: integer
+          description: Page offset from the beginning of the collection.
+          example: 0
+        limit:
+          type: integer
+          description: Maximum number of items returned.
+          example: 20
+        items:
+          type: object
+          description: Array of items returned.
+        total:
+          type: integer
+          description: Total number of items available.
+    Contract:
+      type: object
+      required:
+        - id
+        - amount
+        - currency
+        - downpaymentAmount
+        - duration
+        - durationUnit
+        - financierId
+        - startDate
+        - status
+        - totalPaidAmount
+        - type
+      properties:
+        id:
+          type: string
+          description: ID.
+          example: 09ed37ba-dc07-4b41-8a63-86bb7cec2d8d
+          format: uuid
+        amount:
+          type: number
+          description: Total payment amount. Formatted according to ISO 4217 standard.
+          example: 4954900
+        currency:
+          type: string
+          description: Currency in ISO 4217 format.
+          example: NGN
+        defaultPaymentMethodId:
+          description: Default payment method for this contract.
+          type: string
+          format: uuid
+        device:
+          $ref: '#/components/schemas/ContractDevice'
+        downpaymentAmount:
+          type: number
+          description: Amount of downpayment. Formatted according to ISO 4217 standard.
+          example: 1600000
+        downpaymentTransactionId:
+          type: string
+          description: ID.
+          example: 09ed37ba-dc07-4b41-8a63-86bb7cec2d8d
+          format: uuid
+        duration:
+          type: integer
+          description: Length of contract duration based on duration unit chosen. Minimum value is 1.
+          example: 6
+          minimum: 1
+        durationUnit:
+          type: string
+          description: Time unit for length of contract. It can be DAY, WEEK or MONTH.
+          example: MONTH
+        financierId:
+          type: string
+          description: Financier ID that owns this contract.
+          format: uuid
+        instalmentContractDetails:
+          $ref: '#/components/schemas/InstalmentContractDetail'
+        startDate:
+          type: string
+          description: Date time when contract is started. Default is null.
+          format: date-time
+          example: null
+        status:
+          type: string
+          description: |
+            Status of contract.
+            - CREATED; Contract is created but not started.
+            - ACTIVE; Contract is started and active.
+            - INACTIVE; Contract is started but inactive. Credit is not deducted and payment schedules are not active. Payment can no longer be made.
+            - CANCELED; Contract is canceled. Credit is not deducted and payment schedules are not active. Payment can no longer be made.
+            - COMPLETED; Contract is completed. Credit is not deducted and payment schedules are not active. Payment can no longer be made.
+
+            Default is CREATED
+          example: CREATED
+        totalPaidAmount:
+          type: number
+          description: Total amount paid. This is derived from the total amount of transactions happen for this contract.
+          example: 0
+        type:
+          type: string
+          description: Type of contract. Determine how payment is done. It can be CREDIT or INSTALMENT.
+          example: INSTALMENT
+    ContractCreateRequest:
+      type: object
+      required:
+        - amount
+        - currency
+        - downpaymentAmount
+        - duration
+        - durationUnit
+        - financierId
+        - type
+      properties:
+        amount:
+          type: number
+          description: Total payment amount. Formatted according to ISO 4217 standard.
+          example: 4954900
+        currency:
+          type: string
+          description: Currency in ISO 4217 format.
+          example: NGN
+        defaultPaymentMethodId:
+          type: string
+          description: Default payment method for this contract.
+          format: uuid
+        device:
+          $ref: '#/components/schemas/ContractDeviceCreateRequest'
+        downpaymentAmount:
+          type: number
+          description: Amount of downpayment. Formatted according to ISO 4217 standard.
+          example: 1600000
+        downpaymentTransactionId:
+          type: string
+          description: id of downpayment transaction.
+          example: 09ed37ba-dc07-4b41-8a63-86bb7cec2d8d
+          format: uuid
+        duration:
+          type: integer
+          description: Length of contract duration based on duration unit chosen. Minimum value is 1.
+          example: 6
+          minimum: 1
+        durationUnit:
+          type: string
+          description: Time unit for length of contract. It can be DAY, WEEK or MONTH.
+          example: MONTH
+        financierId:
+          type: string
+          description: Financier ID that owns this contract.
+          format: uuid
+          example: "{{financier_id}}"
+        gracePeriod:
+          type: integer
+          default: 0
+          description: Grace period after payment due date before locking device.
+          example: 3
+        gracePeriodUnit:
+          type: string
+          default: "HOUR"
+          description: Grace period unit after payment due date before locking device. It can be HOUR, DAY, WEEK or MONTH.
+          example: "DAY"
+        instalmentContractDetails:
+          $ref: '#/components/schemas/InstalmentContractDetail'
+        type:
+          type: string
+          description: Type of contract. Determine how payment is done. It can be CREDIT or INSTALMENT.
+          example: INSTALMENT
+    ContractDevice:
+      type: object
+      required:
+        - deviceId
+        - deviceIMEI
+        - oem
+        - offlineLockTimestamp
+        - model
+        - deviceSerialNumber
+        - status
+      properties:
+        deviceId:
+          description: Device ID
+          type: string
+          format: uuid
+        deviceIMEI:
+          type: string
+          description: International Mobile Equipment Identity Number
+          example: 49015420323751
+        oem:
+          type: string
+          description: Origional Equipement Manufacturer of the device
+          example: Samsung
+        offlineLockTimestamp:
+          type: integer
+          description: Timestamp describing when phone will be locked.
+          example: 1580361770
+        model:
+          type: string
+          description: Model of the device
+          example: Galaxy A10s
+        deviceSerialNumber:
+          type: string
+          description: Serial number as provided by the OEM
+          example: 1289494HKI90
+        status:
+          type: string
+          description: Status of the device
+          example: Locked
+    ContractDeviceCreateRequest:
+      type: object
+      required: [deviceIMEI]
+      properties:
+        deviceIMEI:
+          type: string
+          description: International Mobile Equipment Identity Number
+          example: 49015420323751
+    ContractDeviceUpdateRequest:
+      type: object
+      required:
+        - offlineLockTimestamp
+      properties:
+        deviceIMEI:
+          type: string
+          description: International Mobile Equipment Identity Number
+          example: 49015420323751
+        offlineLockTimestamp:
+          type: integer
+          description: Timestamp describing when phone will be locked.
+          example: 1580361770
+    Contracts:
+      allOf:
+        - $ref: '#/components/schemas/CollectionPage'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Contract'
+    ContractUpdateRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: Total payment amount. Formatted according to ISO 4217 standard.
+          example: 4954900
+        currency:
+          type: string
+          description: Currency in ISO 4217 format.
+          example: NGN
+        defaultPaymentMethodId:
+          type: string
+          description: Default payment method for this contract.
+          format: uuid
+        device:
+          $ref: '#/components/schemas/ContractDeviceUpdateRequest'
+        downpaymentAmount:
+          type: number
+          description: Amount of downpayment. Formatted according to ISO 4217 standard.
+          example: 1600000
+        downpaymentTransactionId:
+          type: string
+          description: id of downpayment transaction.
+          example: 09ed37ba-dc07-4b41-8a63-86bb7cec2d8d
+          format: uuid
+        duration:
+          type: integer
+          description: Length of contract duration based on duration unit chosen. Minimum value is 1.
+          example: 6
+          minimum: 1
+        durationUnit:
+          type: string
+          description: Time unit for length of contract. It can be DAY, WEEK or MONTH.
+          example: MONTH
+        gracePeriod:
+          type: integer
+          default: 0
+          description: Grace period after payment due date before locking device.
+          example: 3
+        gracePeriodUnit:
+          type: string
+          default: "HOUR"
+          description: Grace period unit after payment due date before locking device. It can be HOUR, DAY, WEEK or MONTH.
+          example: "DAY"
+        instalmentContractDetails:
+          $ref: '#/components/schemas/InstalmentContractDetail'
+        startDate:
+          type: string
+          description: Date time when contract is started. Default is null.
+          format: date-time
+          example: null
+        status:
+          type: string
+          description: |
+            Status of contract.
+            - CREATED; Contract is created but not started.
+            - ACTIVE; Contract is started and active.
+            - INACTIVE; Contract is started but inactive. Credit is not deducted and payment schedules are not active. Payment can no longer be made.
+            - CANCELED; Contract is canceled. Credit is not deducted and payment schedules are not active. Payment can no longer be made.
+            - COMPLETED; Contract is completed. Credit is not deducted and payment schedules are not active. Payment can no longer be made.
+
+            Default is CREATED
+          example: CREATED
+        type:
+          type: string
+          description: Type of contract. Determine how payment is done. It can be CREDIT or INSTALMENT.
+          example: INSTALMENT
+    CreditContractDetail:
+      type: object
+      description: details for credit contract.  Present only if contract type is CREDIT.
+      required:
+        - totalCredit
+        - availableCredit
+        - usageInterval
+        - usageIntervalUnit
+        - usageAmount
+      properties:
+        availableCredit:
+          type: number
+          description: Available credit to be used.
+          example: 559900
+        totalCredit:
+          type: number
+          description: Total credit needed to complete contract.
+          example: 559900
+        usageInterval:
+          type: number
+          description: Interval in which credit being deducted from available credit
+          example: 559900
+        usageIntervalUnit:
+          $ref: '#/components/schemas/IntervalUnit'
+        usageAmount:
+          type: number
+          description: Credit paymentAmount being deducted from available credit per usageInterval
+          example: 559900
+        usedCredit:
+          type: number
+          description: Credit used to pay contract
+          example: 559900
+          readOnly: true
+    DeviceListing:
+      type: object
+      required:
+        - count
+        - offset
+        - limit
+        - total
+        - items
+      properties:
+        count:
+          type: number
+        offset:
+          type: number
+        limit:
+          type: number
+        total:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceResponse'
+    DeviceResponse:
+      type: object
+      required:
+        - deviceId
+        - financierId
+        - imeiNumber
+        - serialNumber
+        - oem
+        - status
+      properties:
+        deviceId:
+          description: Device ID
+          type: string
+          format: uuid
+        financierId:
+          type: string
+          format: uuid
+        imeiNumber:
+          type: string
+          description: International Mobile Equipment Identity Number
+          example: 49015420323751
+        serialNumber:
+          type: string
+          description: Serial number as provided by the OEM
+          example: 1289494HKI90
+        oem:
+          type: string
+          description: Origional Equipement Manufacturer of the device
+          example: Samsung
+        status:
+          type: string
+          description: Status of the device
+          example: Locked
+    ErrorResponse:
+        type: object
+        required:
+            - Errors
+        properties:
+          Errors:
+              type: object
+              required:
+                - Error
+              properties:
+                Error:
+                  $ref: '#/components/schemas/Errors' 
+    Errors:
+      type: array
+      minItems: 1
+      items:
+        $ref: '#/components/schemas/Error' 
+    Error:
+      type: object
+      properties:
+        Source:
+          type: string
+        ReasonCode:
+          type: string
+        Description:
+          type: string
+        Recoverable:
+          type: boolean
+        Details:
+          type: string
+    Financier:
+      type: object
+      required:
+        - id
+        - name
+        - extIdentifier
+      properties:
+        id:
+          type: string
+          description: Pay on demand smart phone financier's unique id
+          example: d701b927-7bf9-4b3d-a5b7-cfae814232d2
+        extIdentifier:
+          type: string
+          description: Unique value identifying the financier on the provider's side to distinguish between its own financiers
+          example: FINANCIER_NEW
+        name:
+          type: string
+          description: Display name of the financier
+          example: New Financier
+    FinancierCreateRequest:
+      type: object
+      required:
+        - name
+        - extIdentifier
+      properties:
+        extIdentifier:
+          type: string
+          description: Unique value identifying the financier on the provider's side to distinguish between its own financiers
+          example: FINANCIER_NEW
+        name:
+          type: string
+          description: Display name of the financier
+          example: New Financier
+    Financiers:
+      allOf:
+        - $ref: '#/components/schemas/CollectionPage'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Financier'
+    Gateway:
+      type: object
+      required:
+        - id
+        - code
+        - configurationSchema
+        - name
+        - version
+      properties:
+        id:
+          type: string
+          description: ID.
+          format: uuid
+          example: "ea2d0d51-c5a4-421b-859b-237825425aff"
+        code:
+          type: string
+          description: Code. This is used to identify gateway.
+          example: MPGS
+        configurationSchema:
+          type: string
+          description: Schema used to describe configuration needed. Formatted in JSON Schema format.
+          example: |
+            {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "title": "MPGS Configuration",
+              "description": "MPGS Configuration",
+              "type": "object",
+              "properties": {
+                "baseUrl": {
+                  "description": "Base URL",
+                  "type": "string"
+                },
+                "currency": {
+                  "description": "Currency",
+                  "type": "string"
+                },
+                "merchantId": {
+                  "description": "Merchant ID",
+                  "type": "string"
+                },
+                "password": {
+                  "description": "Password",
+                  "type": "string"
+                },
+                "version": {
+                  "description": "Version",
+                  "type": "string"
+                },
+                "webhookUrl": {
+                  "description": "Webhook URL",
+                  "type": "string"
+                },
+              }
+              "required": [
+                "baseURL",
+                "merchantId",
+                "password",
+                "version",
+                "webhookUrl"
+              ]
+            }
+        name:
+          type: string
+          description: Name.
+          example: MPGS
+        version:
+          type: string
+          description: Version. This is used in the case one payment gateway has multiple version.
+          example: 53
+    GatewayConfiguration:
+      type: object
+      required:
+        - gatewayConfigurationId
+        - configuration
+        - financierId
+        - gatewayId
+      properties:
+        gatewayConfigurationId:
+          type: string
+          description: ID.
+          format: uuid
+          example: ee6c3835-4218-4240-863b-12e777a4934a
+        configuration:
+          type: string
+          description: Configuration for financier. This is JSON format.
+          example: |
+            { 
+              "baseUrl": "https://mtf.gateway.mastercard.com",
+              "currency": "USD",
+              "merchantId": "TESTPHONES",
+              "password": "372ada10977ab39cbc9ce91b2feb0f0f",
+              "version": "53"
+            }
+        financierId:
+          type: string
+          description: Financier ID that owns this configuration.
+          format: uuid
+          example: 603c3e8f-08c2-495c-aafe-fbeea7ecb472
+        gatewayId:
+          type: string
+          description: Gateway ID.
+          format: uuid
+          example: 2c35e03f-50ec-427d-abfc-5c9172e32635
+    GatewayConfigurationRequest:
+      type: object
+      required:
+        - configuration
+        - financierId
+        - gatewayId
+      properties:
+        configuration:
+          description: Configuration in JSON format
+          type: string
+          example: |
+            { 
+              "baseUrl": "https://mtf.gateway.mastercard.com",
+              "currency": "USD",
+              "merchantId": "TESTPHONES",
+              "password": "372ada10977ab39cbc9ce91b2feb0f0f",
+              "version": "53"
+            }
+        financierId:
+          type: string
+          description: Financier ID that owns this configuration.
+          format: uuid
+          example: "{{financier_id}}"
+        gatewayId:
+          type: string
+          description: Gateway ID.
+          format: uuid
+          example: "{{gateway_id}}"
+    GatewayConfigurations:
+      allOf:
+        - $ref: "#/components/schemas/CollectionPage"
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/GatewayConfiguration'
+    GatewayConfigurationWeb:
+      type: object
+      required:
+        - code
+        - configuration
+        - baseUrl
+        - merchantId
+        - version
+        - gatewayId
+      properties:
+        code:
+          type: string
+          description: ID.
+          format: uuid
+          example: "MPGSPRODUCTION"
+        gatewayId:
+          type: string
+          description: Gateway ID.
+          format: uuid
+          example: "12dc917a-2fb8-4174-8e81-2bffba0d4edd"
+        baseUrl:
+          type: string
+          description: Base URL of the payment gateway
+          example: "https://mtf.gateway.mastercard.com"
+        merchantId:
+          type: string
+          description: Merchant ID
+          example: TESTPHONES
+        version:
+          type: string
+          description: Version of the payment gateway
+          format: uuid
+          example: 53
+    Gateways:
+      allOf:
+        - $ref: '#/components/schemas/CollectionPage'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Gateway'
+    InstalmentContractDetail:
+      type: object
+      description: details for instalment contract.  Present only if contract type is INSTALMENT.
+      required:
+        - paymentAmount
+        - paymentInterval
+        - paymentIntervalUnit
+        - instalmentSchedules
+      properties:
+        paymentAmount:
+          type: number
+          description: >-
+            Amount due for each payment. Formatted according to ISO 4217
+            standard.
+          example: 559900
+        paymentInterval:
+          type: integer
+          description: Interval between payment.
+          example: 1
+          minimum: 1
+        paymentIntervalUnit:
+          $ref: '#/components/schemas/IntervalUnit'
+        instalmentSchedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstalmentPaymentSchedule'
+    InstalmentPaymentSchedule:
+      type: object
+      required:
+        - order
+        - amount
+        - dueDate
+        - status
+      properties:
+        order:
+          type: integer
+          description: Sequence number for this payment schedule.
+          example: 1
+        amount:
+          type: number
+          description: Payment amount. Formatted according to ISO 4217 standard.
+          example: 559900
+        dueDate:
+          type: string
+          description: Due date
+          example: '2020-02-01T17:32:28Z'
+          format: date-time
+        status:
+          type: string
+          description: |
+            Status of payment schedule
+            - UNPAID; not paid
+            - PAID; paid
+          example: UNPAID
+    IntervalUnit:
+      type: string
+      description: 'Time unit for length of interval. It can be DAY, WEEK or MONTH.'
+      example: MONTH
+    PaymentSessionRequest:
+      type: object
+      required:
+        - financierId
+        - contractId
+        - deviceId
+        - scope
+        - totalAmount
+        - expiryDate
+        - callBackUrl
+        - lineItems
+      properties:
+        financierId:
+          type: string
+          description: Financier ID that owns this payment session.
+          format: uuid
+          example: "{{financier_id}}"
+        contractId:
+          type: string
+          format: uuid
+          description: Contract ID that the payment session is tied with.
+          example: "{{contract_id}}"
+        deviceId:
+          type: string
+          description: Device ID that makes this transaction for.
+          format: uuid
+        scope:
+          type: string
+          description: >
+            Payment session scope.
+            - DEFAULT; only value currently supported.
+          example: "DEFAULT"
+        totalAmount:
+          type: string
+          description: Total payment amount. Formatted according to ISO 4217 standard.
+          example: "559.00"
+        expiryDate:
+          type: string
+          description: Date time with off set value. Maximum 15 minutes cab be added to the current date time.
+          example: "2020-07-03T22:02:56.525+05:30"
+        callBackUrl:
+          type: string
+          format: url
+          description: Call back url that is used to call back the financier system
+          example: 'http://financier-system.com/12366912-ef30-5662-88ff-99f4ebc6713a'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+    PaymentSession:
+      type: object
+      required:
+        - id
+        - financierId
+        - contractId
+        - defaultPaymentMethodId
+        - gatewayConfiguration
+        - orderId
+        - podTransactionId
+        - totalAmount
+        - currency
+        - lightBoxUrl
+        - lineItems
+      properties:
+        id:
+          type: string
+          description: Payment session id created by the POD system for this payment session.
+          format: uuid
+          example: fcfe6a3d-e59f-422e-baa6-261751bb3569
+        authToken:
+          type: string
+          description: Access token generater for this payment session.
+          example: MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3
+        tokenType:
+          type: string
+          description: Type of Token generated for this payment session.
+          example: bearer
+        expiresIn:
+          type: string
+          description: Expiry Time for this session Id.
+          example: 3600
+        financierId:
+          type: string
+          description: Financier ID that owns this payment session.
+          format: uuid
+        contractId:
+          type: string
+          description: Contract ID that owns this payment session.
+          format: uuid
+        defaultPaymentMethodId:
+          type: string
+          description: Default payment method id for user.
+          format: uuid
+        gatewayConfiguration:
+          $ref: '#/components/schemas/GatewayConfigurationWeb'
+        orderId:
+          type: string
+          description: Order id that generated for sending to payment gateway to make the transaction.
+          format: uuid
+        podTransactionId:
+          type: string
+          description: Transaction id that generated for sending to payment gateway to make the transaction.
+          format: uuid
+        totalAmount:
+          type: string
+          description: Total payment amount. Formatted according to ISO 4217 standard.
+          example: "599.00"
+        currency:
+          type: string
+          description: Currency in ISO 4217 format.
+          example: NGN
+        lightBoxUrl:
+          type: string
+          format: url
+          description: This url used to invoke the payment page from the light box
+          example: 'http://light-box.mastercard.com/'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+    LineItem:
+      type: object
+      required:
+        - amount
+        - lineItemDescription
+        - lineItemType
+        - flag
+      properties:
+        amount:
+          type: string
+          description: Linet item amount. Formatted according to ISO 4217 standard.
+          example: "10.34"
+        lineItemDescription:
+          type: string
+          description: Description of the line item.
+          example: "Instalment amount"
+        lineItemType:
+          type: string
+          description: >
+            Line item type values.
+            - OTHER_FEE; Can be used to describe the amounts such as service charge, penalty etc.
+            - INSTALMENT; Can be used to describe the installment amount.
+            - DOWN_PAYMENT; Can be used to describe the down payment amount
+          example: "INSTALMENT"
+        flag:
+          type: number
+          description: This flag is used to style the line item.
+          example: 4
+    Transaction:
+      type: object
+      required:
+        - id
+        - financierId
+        - contractId
+        - totalAmount
+        - currency
+        - transactionReference
+        - transactionDate
+        - source
+        - transactionStatus
+        - type
+      properties:
+        id:
+          type: string
+          description: ID.
+          example: 09ed37ba-dc07-4b41-8a63-86bb7cec2d8d
+          format: uuid
+        financierId:
+          type: string
+          description: Financier ID that owns this transaction.
+          format: uuid
+        contractId:
+          type: string
+          description: Contract ID that owns this transaction.
+          format: uuid
+        totalAmount:
+          type: string
+          description: Total amount. Formatted according to ISO 4217 standard.
+          example: "4954900"
+        currency:
+          type: string
+          description: Currency in ISO 4217 format.
+          example: NGN
+        transactionReference:
+          type: string
+          description: External transaction reference. This number is unique per financier.
+          example: 12345677890
+        transactionDate:
+          type: string
+          description: Date time when transaction is made.
+          format: UTC
+          example: '2020-01-01T00:00:00Z'
+        source:
+          type: string
+          description: Source of transaction.
+          example: 'CHEQUE'
+        transactionStatus:
+          type: string
+          description: Status. It can be INIT, FAILED, PENDING, APPROVED.
+          example: 'APPROVED'
+        transactionType:
+          type: string
+          description: Type. It can be EXTERNAL or INTERNAL.
+          example: 'INTERNAL'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+    TransactionRequest:
+      type: object
+      required:
+        - financierId
+        - contractId
+        - totalAmount
+        - currency
+        - transactionReference
+        - transactionDate
+        - source
+        - transactionStatus
+        - lineItems
+      properties:
+        financierId:
+          type: string
+          description: Financier ID that owns this transaction.
+          format: uuid
+          example: "{{financier_id}}"
+        contractId:
+          type: string
+          description: Contract ID that owns this transaction.
+          format: uuid
+          example: "{{contract_id}}"
+        totalAmount:
+          type: string
+          description: Total amount. Formatted according to ISO 4217 standard.
+          example: "4954900"
+        currency:
+          type: string
+          description: Currency in ISO 4217 format.
+          example: NGN
+        transactionReference:
+          type: string
+          description: External transaction reference. This number is unique per financier.
+          example: 12345677890
+        transactionDate:
+          type: string
+          description: Date time when transaction is made.
+          format: UTC
+          example: '2020-01-01T00:00:00Z'
+        source:
+          type: string
+          description: Source of transaction.
+          example: 'CHEQUE'
+        transactionStatus:
+          type: string
+          description: Status. Only "APPROVED" staus is accepted at the moment.
+          example: 'APPROVED'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+    Transactions:
+      allOf:
+        - $ref: '#/components/schemas/CollectionPage'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transaction'

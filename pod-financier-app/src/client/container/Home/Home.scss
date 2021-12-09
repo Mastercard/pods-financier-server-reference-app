@@ -1,0 +1,34 @@
+.home {
+  height: 100%;
+  overflow: hidden;
+
+  &-main {
+    display: flex;
+    flex-direction: column;
+
+    & > .ant-layout-content {
+      min-height: 0;
+      flex: 1;
+      padding: 24px;
+      overflow: auto;
+    }
+
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td,
+    .ant-table-tfoot > tr > th,
+    .ant-table-tfoot > tr > td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &-logo-wrapper {
+    padding: 16px 0;
+    text-align: center;
+
+    img {
+      width: 70%;
+    }
+  }
+}

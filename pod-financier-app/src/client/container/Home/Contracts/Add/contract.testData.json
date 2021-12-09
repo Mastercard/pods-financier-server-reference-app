@@ -1,0 +1,28 @@
+{
+  "id": "f730fb62-c2fb-4764-846a-31c9eb14efbe",
+  "amount": 3000,
+  "currency": "UGX",
+  "downpaymentAmount": 12,
+  "duration": 1,
+  "durationUnit": "MONTH",
+  "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+  "startDate": "2020-04-24T05:57:43.000Z",
+  "status": "CREATED",
+  "totalPaidAmount": null,
+  "type": "INSTALMENT",
+  "defaultPaymentMethodId": "bbf89710-aefb-477b-b1e6-a2171384ed7e",
+  "downpaymentTransactionId": "163b7026-c5d7-456c-9d2f-c54ca3434cda",
+  "instalmentContractDetails": {
+    "paymentAmount": 2988,
+    "paymentInterval": 1,
+    "paymentIntervalUnit": "MONTH",
+    "instalmentSchedules": [
+      {
+        "order": 1,
+        "amount": 2988,
+        "dueDate": "2020-05-24T05:57:43.000Z",
+        "status": "PARTIAL_PAID"
+      }
+    ]
+  }
+}

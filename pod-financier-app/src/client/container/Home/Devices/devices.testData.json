@@ -1,0 +1,32 @@
+{
+  "count": 3,
+  "offset": 0,
+  "limit": 50,
+  "total": 3,
+  "items": [
+    {
+      "deviceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "financierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "imeiNumber": 49015420323751,
+      "serialNumber": "1289494HKI90",
+      "oem": "Samsung",
+      "status": "Locked"
+    },
+    {
+      "deviceId": "4ha85f64-5717-4562-b3fc-2c963f66afa6",
+      "financierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "imeiNumber": 58015420323751,
+      "serialNumber": "5689494HKI90",
+      "oem": "Samsung",
+      "status": "Locked"
+    },
+    {
+      "deviceId": "6ra85f64-5717-4562-b3fc-2c963f66afa6",
+      "financierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "imeiNumber": 85015420323751,
+      "serialNumber": "7389494HKI90",
+      "oem": "Samsung",
+      "status": "Locked"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "offset": 0,
+  "limit": 50,
+  "count": 3,
+  "total": 3,
+  "items": [
+    {
+      "id": "70151b5b-99f9-4bfc-b908-f9e2dbbadcf7",
+      "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+      "contractId": "f730fb62-c2fb-4764-846a-31c9eb14efbe",
+      "totalAmount": "559900",
+      "currency": "UGX",
+      "transactionReference": "1cd694db-b7ee-49b4-9111-64442e0f6aaf",
+      "transactionDate": "2020-04-24T06:14:38.998+0000",
+      "source": "CARD",
+      "transactionStatus": "APPROVED",
+      "transactionType": "INTERNAL",
+      "lineItems": [
+        {
+          "amount": "200",
+          "lineItemDescription": "Instalment Amount",
+          "lineItemType": "INSTALMENT",
+          "flag": 4
+        }
+      ]
+    },
+    {
+      "id": "c4a2bb41-05e5-4f64-bda9-5e4ab6924013",
+      "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+      "contractId": "f730fb62-c2fb-4764-846a-31c9eb14efbe",
+      "totalAmount": "559900",
+      "currency": "UGX",
+      "transactionReference": "7af31b9a-d933-46d6-9467-5f921ec39276",
+      "transactionDate": "2020-04-24T06:15:29.430+0000",
+      "source": "CARD",
+      "transactionStatus": "INIT",
+      "transactionType": "INTERNAL",
+      "lineItems": [
+        {
+          "amount": "200",
+          "lineItemDescription": "Instalment Amount",
+          "lineItemType": "INSTALMENT",
+          "flag": 4
+        }
+      ]
+    },
+    {
+      "id": "811ced77-be41-49b3-8f9d-515a26226a71",
+      "financierId": "60eba511-71d7-4dca-8ef0-31ac1c5a7e46",
+      "contractId": "f730fb62-c2fb-4764-846a-31c9eb14efbe",
+      "totalAmount": "559900",
+      "currency": "UGX",
+      "transactionReference": "08b1c3e1-9cf9-4a30-8fc1-7714dadf3446",
+      "transactionDate": "2020-04-24T06:16:35.857+0000",
+      "source": "CARD",
+      "transactionStatus": "APPROVED",
+      "transactionType": "INTERNAL",
+      "lineItems": [
+        {
+          "amount": "200",
+          "lineItemDescription": "Instalment Amount",
+          "lineItemType": "INSTALMENT",
+          "flag": 4
+        }
+      ]
+    }
+  ]
+}

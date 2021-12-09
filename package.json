@@ -1,0 +1,4 @@
+{
+  "private": true,
+  "workspaces": ["pod-api-client", "pod-smartphone-api", "pod-financier-app", "pod-consumer-backend"]
+}
