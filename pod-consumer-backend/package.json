@@ -8,7 +8,7 @@
     "express": "^4.17.1",
     "get-random-values": "^1.2.0",
     "ip": "^1.1.5",
-    "jsrsasign": "^8.0.15",
+    "jsrsasign": "^10.2.0",
     "moment-timezone": "^0.5.28",
     "pod-smartphone-api": "0.1.0"
   },
