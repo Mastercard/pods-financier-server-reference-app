@@ -5,7 +5,7 @@
   "proxy": "http://localhost:8081",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "get-random-values": "^1.2.0",
     "ip": "^1.1.5",
     "jsrsasign": "^8.0.15",
